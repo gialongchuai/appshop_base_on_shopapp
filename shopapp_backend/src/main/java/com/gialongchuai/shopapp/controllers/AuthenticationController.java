@@ -3,6 +3,8 @@ package com.gialongchuai.shopapp.controllers;
 import java.text.ParseException;
 
 import com.gialongchuai.shopapp.services.impl.IAuthenticationService;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -27,10 +29,12 @@ import lombok.extern.slf4j.Slf4j;
 @RequiredArgsConstructor
 @FieldDefaults(level = AccessLevel.PRIVATE, makeFinal = true)
 @Slf4j
+@Tag(name = "Authentication", description = "Authentication management APIs")
 public class AuthenticationController {
     IAuthenticationService iAuthenticationService;
 
     @PostMapping("/token")
+    @Operation(summary = "Authenticate user", description = "Authenticates user and returns JWT token")
     public ApiResponse<AuthenticationResponse> authenticate(@RequestBody AuthenticationRequest authenticationRequest) {
         return ApiResponse.<AuthenticationResponse>builder()
                 .result(iAuthenticationService.authenticate(authenticationRequest))
@@ -38,6 +42,7 @@ public class AuthenticationController {
     }
 
     @PostMapping("/introspect")
+    @Operation(summary = "Introspect token", description = "Validates and introspects JWT token")
     public ApiResponse<IntroSpectResponse> introspect(@RequestBody IntroSpectRequest introSpectRequest)
             throws ParseException, JOSEException {
         return ApiResponse.<IntroSpectResponse>builder()
@@ -46,12 +51,14 @@ public class AuthenticationController {
     }
 
     @PostMapping("/logout")
+    @Operation(summary = "Logout user", description = "Logs out user by invalidating token")
     public ApiResponse<Void> logout(@RequestBody LogoutRequest logoutRequest) throws ParseException, JOSEException {
         iAuthenticationService.logout(logoutRequest);
         return ApiResponse.<Void>builder().build();
     }
 
     @PostMapping("/refresh")
+    @Operation(summary = "Refresh token", description = "Refreshes JWT token")
     ApiResponse<AuthenticationResponse> refreshToken(@RequestBody RefreshTokenRequest request)
             throws ParseException, JOSEException {
         log.info(request.getToken());

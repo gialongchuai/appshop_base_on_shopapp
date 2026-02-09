@@ -3,6 +3,8 @@ package com.gialongchuai.shopapp.controllers;
 import java.util.List;
 
 import com.gialongchuai.shopapp.services.impl.ICategoryService;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 
 import org.springframework.web.bind.annotation.*;
@@ -21,10 +23,12 @@ import lombok.experimental.FieldDefaults;
 @RequiredArgsConstructor
 @FieldDefaults(level = AccessLevel.PRIVATE, makeFinal = true)
 @RequestMapping("/categories")
+@Tag(name = "Category", description = "Category management APIs")
 public class CategoryController {
     ICategoryService iCategoryService;
 
     @PostMapping
+    @Operation(summary = "Create category", description = "Creates a new category")
     ApiResponse<CategoryResponse> create(@RequestBody CategoryCreationRequest categoryCreationRequest) {
         return ApiResponse.<CategoryResponse>builder()
                 .result(iCategoryService.create(categoryCreationRequest))
@@ -32,6 +36,7 @@ public class CategoryController {
     }
 
     @GetMapping
+    @Operation(summary = "Get all categories", description = "Retrieves all categories")
     ApiResponse<List<CategoryResponse>> getAllCategory() {
         return ApiResponse.<List<CategoryResponse>>builder()
                 .result(iCategoryService.getAllCategories())
@@ -39,6 +44,7 @@ public class CategoryController {
     }
 
     @GetMapping("/{categoryId}")
+    @Operation(summary = "Get category by ID", description = "Retrieves a specific category by ID")
     ApiResponse<CategoryResponse> getCategory(@PathVariable String categoryId) {
         return ApiResponse.<CategoryResponse>builder()
                 .result(iCategoryService.getCategory(categoryId))
@@ -46,6 +52,7 @@ public class CategoryController {
     }
 
     @PutMapping("/{categoryId}")
+    @Operation(summary = "Update category", description = "Updates an existing category")
     ApiResponse<CategoryResponse> updateCategory(
             @PathVariable String categoryId, @RequestBody @Valid CategoryUpdationRequest categoryUpdationRequest) {
         return ApiResponse.<CategoryResponse>builder()
@@ -54,6 +61,7 @@ public class CategoryController {
     }
 
     @DeleteMapping("/{categoryId}")
+    @Operation(summary = "Delete category", description = "Deletes a category by ID")
     ApiResponse<String> delete(@PathVariable String categoryId) {
         return ApiResponse.<String>builder()
                 .result(iCategoryService.deleteCategory(categoryId))

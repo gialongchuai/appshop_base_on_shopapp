@@ -13,8 +13,19 @@ spring:
     password: root
   jpa:
     hibernate:
-      ddl-auto: update
+      ddl-auto: none
     show-sql: true
+
+springdoc:
+  swagger-ui:
+    path: /swagger-ui.html
+    enabled: true
+    operations-sorter: method
+    tags-sorter: alpha
+    display-request-duration: true
+  api-docs:
+    path: /v3/api-docs
+  show-actuator: false
 
 jwt:
   signerKey: "8axEpzjNZFefaBJPt0gn4cxaESdRk3fPangsmk3c+77S2iT1czzbaPWoJ2lJ7qlJ"

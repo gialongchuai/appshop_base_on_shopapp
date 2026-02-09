@@ -3,6 +3,8 @@ package com.gialongchuai.shopapp.controllers;
 import java.util.List;
 
 import com.gialongchuai.shopapp.services.impl.IUserService;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 
 import org.springframework.web.bind.annotation.*;
@@ -23,10 +25,12 @@ import lombok.extern.slf4j.Slf4j;
 @RequiredArgsConstructor
 @FieldDefaults(level = AccessLevel.PRIVATE, makeFinal = true)
 @Slf4j
+@Tag(name = "User", description = "User management APIs")
 public class UserController {
     IUserService iUserService;
 
     @PostMapping("/registration")
+    @Operation(summary = "Create user", description = "Creates a new user account")
     ApiResponse<UserResponse> createUser(@RequestBody @Valid UserCreationRequest userCreationRequest) {
         log.info("-------i am here");
         return ApiResponse.<UserResponse>builder()

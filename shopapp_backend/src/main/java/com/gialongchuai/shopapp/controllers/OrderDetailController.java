@@ -3,6 +3,8 @@ package com.gialongchuai.shopapp.controllers;
 import java.util.List;
 
 import com.gialongchuai.shopapp.services.impl.IOrderDetailService;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 
 import org.springframework.web.bind.annotation.*;
@@ -22,10 +24,12 @@ import lombok.extern.slf4j.Slf4j;
 @RestController
 @FieldDefaults(level = AccessLevel.PRIVATE, makeFinal = true)
 @Slf4j
+@Tag(name = "OrderDetail", description = "Order detail management APIs")
 public class OrderDetailController {
     IOrderDetailService iOrderDetailService;
 
     @PostMapping("/orders/details")
+    @Operation(summary = "Create order detail", description = "Creates a new order detail")
     ApiResponse<OrderDetailResponse> create(@RequestBody @Valid OrderDetailCreationRequest orderDetailCreationRequest) {
         log.info("=== create order: " + orderDetailCreationRequest);
         return ApiResponse.<OrderDetailResponse>builder()

@@ -3,6 +3,8 @@ package com.gialongchuai.shopapp.controllers;
 import java.util.List;
 
 import com.gialongchuai.shopapp.services.impl.IOrderService;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 
 import org.springframework.web.bind.annotation.*;
@@ -23,10 +25,12 @@ import lombok.extern.slf4j.Slf4j;
 @FieldDefaults(level = AccessLevel.PRIVATE, makeFinal = true)
 @Slf4j
 @RequestMapping("/orders")
+@Tag(name = "Order", description = "Order management APIs")
 public class OrderController {
     IOrderService iOrderService;
 
     @PostMapping
+    @Operation(summary = "Create order", description = "Creates a new order")
     ApiResponse<OrderResponse> create(@RequestBody @Valid OrderCreationRequest orderCreationRequest) {
         log.info("=== create order: " + orderCreationRequest);
         return ApiResponse.<OrderResponse>builder()
@@ -35,6 +39,7 @@ public class OrderController {
     }
 
     @GetMapping
+    @Operation(summary = "Get all orders", description = "Retrieves all orders")
     ApiResponse<List<OrderResponse>> getAllOrders() {
         return ApiResponse.<List<OrderResponse>>builder()
                 .result(iOrderService.getAllOrders())
